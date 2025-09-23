@@ -28,8 +28,7 @@ public class ChessPosition {
 
     @Override
     public String toString() {
-        return "You need to make the tostring";
-        //return toString().formatted(["%d%d]", row, col);
+        return String.format("[%d, %d]", row, col);
     }
 
     public ChessPosition(int row, int col) {
@@ -42,7 +41,7 @@ public class ChessPosition {
      * 1 codes for the bottom row
      */
     public int getRow() {
-        return this.row;
+        return row;
     }
 
     /**
@@ -50,6 +49,6 @@ public class ChessPosition {
      * 1 codes for the left row
      */
     public int getColumn() {
-        return this.col;
+        return col;
     }
 }

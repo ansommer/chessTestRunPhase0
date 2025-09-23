@@ -30,7 +30,11 @@ public class ChessMove {
 
     @Override
     public String toString() {
-        return "write the tostring";
+        //I can make it so it doesn't show promotion piece if it's null
+        if (promotionPiece == null) {
+            return String.format("%s,%s", startPosition, endPosition);
+        }
+        return String.format("%s,%s,%s", startPosition, endPosition, promotionPiece);
     }
 
     public ChessMove(ChessPosition startPosition, ChessPosition endPosition,

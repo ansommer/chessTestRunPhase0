@@ -2,6 +2,9 @@ package chess;
 
 import java.util.Collection;
 import java.util.Objects;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * Represents a single chess piece
@@ -72,6 +75,54 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        throw new RuntimeException("Not implemented");
+        Collection<ChessMove> moves = new HashSet<>(); //honestly idk the difference btwn collection, hashset, and array
+        if (this.type == ChessPiece.PieceType.KING) {
+            moves = kingMoves(board, myPosition);
+        } else if  (this.type == ChessPiece.PieceType.KNIGHT) {
+            moves = knightMoves(board, myPosition);
+        }
+        return moves;
     }
+
+    public boolean checkMove (ChessBoard board, ChessPosition myPosition, int row, int col) {
+        if (1 <= row && row <= 8 && 1 <= col && col <= 8) {
+            ChessPiece piece = board.getPiece(myPosition);
+            if (piece == null || piece.pieceColor != this.pieceColor) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public HashSet<ChessMove> kingMoves(ChessBoard board, ChessPosition myPosition) {
+        HashSet<ChessMove> moves = new HashSet<>();
+        HashSet<ChessPosition> possibleMoves = new HashSet<>();
+
+        int row = myPosition.getRow();
+        int col = myPosition.getColumn();
+
+        possibleMoves.add(new ChessPosition(row+1, col-1));
+        possibleMoves.add(new ChessPosition(row+1, col));
+        possibleMoves.add(new ChessPosition(row+1, col+1));
+        possibleMoves.add(new ChessPosition(row, col-1));
+        possibleMoves.add(new ChessPosition(row, col+1));
+        possibleMoves.add(new ChessPosition(row-1, col-1));
+        possibleMoves.add(new ChessPosition(row-1, col));
+        possibleMoves.add(new ChessPosition(row-1, col+1));
+
+        for (ChessPosition x : possibleMoves) {
+            int testRow = x.getRow();
+            int testCol = x.getColumn();
+            if (checkMove(board, x, testRow, testCol)) {
+                moves.add(new ChessMove(myPosition, x, null));
+            }
+        }
+
+        return moves;
+    }
+
+
+
+
+
 }
