@@ -82,6 +82,8 @@ public class ChessPiece {
             moves = knightMoves(board, myPosition);
         } else if (this.type == ChessPiece.PieceType.BISHOP) {
             moves = bishopMoves(board, myPosition);
+        } else if (this.type == ChessPiece.PieceType.ROOK) {
+            moves = rookMoves(board, myPosition);
         }
         return moves;
     }
@@ -94,6 +96,54 @@ public class ChessPiece {
             }
         }
         return false;
+    }
+
+    public HashSet<ChessMove> rookMoves(ChessBoard board, ChessPosition myPosition) {
+        HashSet<ChessMove> moves = new HashSet<>();
+
+        int row = myPosition.getRow();
+        int col = myPosition.getColumn();
+
+        while(row<8) {
+            row++;
+            if (checkMove(board, myPosition, row, col)) {
+                moves.add(new ChessMove(myPosition, new ChessPosition(row, col), null));
+                ChessPiece piece = board.getPiece(new ChessPosition(row, col));
+                if (piece != null) {break;}
+            } else {break;}
+        }
+        row = myPosition.getRow();
+
+        while(row>1) {
+            row--;
+            if (checkMove(board, myPosition, row, col)) {
+                moves.add(new ChessMove(myPosition, new ChessPosition(row, col), null));
+                ChessPiece piece = board.getPiece(new ChessPosition(row, col));
+                if (piece != null) {break;}
+            } else {break;}
+        }
+        row = myPosition.getRow();
+
+        while(col<8) {
+            col++;
+            if (checkMove(board, myPosition, row, col)) {
+                moves.add(new ChessMove(myPosition, new ChessPosition(row, col), null));
+                ChessPiece piece = board.getPiece(new ChessPosition(row, col));
+                if (piece != null) {break;}
+            } else {break;}
+        }
+        col = myPosition.getColumn();
+
+        while(col>1) {
+            col--;
+            if (checkMove(board, myPosition, row, col)) {
+                moves.add(new ChessMove(myPosition, new ChessPosition(row, col), null));
+                ChessPiece piece = board.getPiece(new ChessPosition(row, col));
+                if (piece != null) {break;}
+            } else {break;}
+        }
+
+        return moves;
     }
 
     public HashSet<ChessMove> bishopMoves(ChessBoard board, ChessPosition myPosition) {
@@ -151,8 +201,6 @@ public class ChessPiece {
         return moves;
     }
 
-
-
     public HashSet<ChessMove> kingMoves(ChessBoard board, ChessPosition myPosition) {
         HashSet<ChessMove> moves = new HashSet<>();
         HashSet<ChessPosition> possibleMoves = new HashSet<>();
@@ -179,7 +227,6 @@ public class ChessPiece {
 
         return moves;
     }
-
 
     public HashSet<ChessMove> knightMoves(ChessBoard board, ChessPosition myPosition) {
         HashSet<ChessMove> moves = new HashSet<>();
