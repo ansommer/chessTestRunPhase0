@@ -31,10 +31,10 @@ public class ChessPiece {
         return Objects.hash(pieceColor, type);
     }
 
-    @Override
-    public String toString() {
-        return "make a tostring";
-    }
+//    @Override
+//    public String toString() {
+//        return "make a tostring";
+//    }
 
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
         this.pieceColor = pieceColor;
@@ -80,19 +80,78 @@ public class ChessPiece {
             moves = kingMoves(board, myPosition);
         } else if  (this.type == ChessPiece.PieceType.KNIGHT) {
             moves = knightMoves(board, myPosition);
+        } else if (this.type == ChessPiece.PieceType.BISHOP) {
+            moves = bishopMoves(board, myPosition);
         }
         return moves;
     }
 
     public boolean checkMove (ChessBoard board, ChessPosition myPosition, int row, int col) {
         if (1 <= row && row <= 8 && 1 <= col && col <= 8) {
-            ChessPiece piece = board.getPiece(myPosition);
+            ChessPiece piece = board.getPiece(new ChessPosition(row, col));
             if (piece == null || piece.pieceColor != this.pieceColor) {
                 return true;
             }
         }
         return false;
     }
+
+    public HashSet<ChessMove> bishopMoves(ChessBoard board, ChessPosition myPosition) {
+        HashSet<ChessMove> moves = new HashSet<>();
+
+        int row = myPosition.getRow();
+        int col = myPosition.getColumn();
+
+        while(row<8 && col<8) {
+            row++;
+            col++;
+            if (checkMove(board, myPosition, row, col)) {
+                moves.add(new ChessMove(myPosition, new ChessPosition(row, col), null));
+                ChessPiece piece = board.getPiece(new ChessPosition(row, col));
+                if (piece != null) {break;}
+            } else {break;}
+        }
+        row = myPosition.getRow();
+        col = myPosition.getColumn();
+
+        while(row>1 && col>1) {
+            row--;
+            col--;
+            if (checkMove(board, myPosition, row, col)) {
+                moves.add(new ChessMove(myPosition, new ChessPosition(row, col), null));
+                ChessPiece piece = board.getPiece(new ChessPosition(row, col));
+                if (piece != null) {break;}
+            } else {break;}
+        }
+        row = myPosition.getRow();
+        col = myPosition.getColumn();
+
+        while(row>1 && col<8) {
+            row--;
+            col++;
+            if (checkMove(board, myPosition, row, col)) {
+                moves.add(new ChessMove(myPosition, new ChessPosition(row, col), null));
+                ChessPiece piece = board.getPiece(new ChessPosition(row, col));
+                if (piece != null) {break;}
+            } else {break;}
+        }
+        row = myPosition.getRow();
+        col = myPosition.getColumn();
+
+        while(row<8 && col>1) {
+            row++;
+            col--;
+            if (checkMove(board, myPosition, row, col)) {
+                moves.add(new ChessMove(myPosition, new ChessPosition(row, col), null));
+                ChessPiece piece = board.getPiece(new ChessPosition(row, col));
+                if (piece != null) {break;}
+            } else {break;}
+        }
+
+        return moves;
+    }
+
+
 
     public HashSet<ChessMove> kingMoves(ChessBoard board, ChessPosition myPosition) {
         HashSet<ChessMove> moves = new HashSet<>();
