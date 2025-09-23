@@ -122,7 +122,33 @@ public class ChessPiece {
     }
 
 
+    public HashSet<ChessMove> knightMoves(ChessBoard board, ChessPosition myPosition) {
+        HashSet<ChessMove> moves = new HashSet<>();
+        HashSet<ChessPosition> possibleMoves = new HashSet<>();
 
+        int row = myPosition.getRow();
+        int col = myPosition.getColumn();
+
+        possibleMoves.add(new ChessPosition(row+2, col+1));
+        possibleMoves.add(new ChessPosition(row+2, col-1));
+        possibleMoves.add(new ChessPosition(row-2, col+1));
+        possibleMoves.add(new ChessPosition(row-2, col-1));
+        possibleMoves.add(new ChessPosition(row+1, col+2));
+        possibleMoves.add(new ChessPosition(row-1, col+2));
+        possibleMoves.add(new ChessPosition(row+1, col-2));
+        possibleMoves.add(new ChessPosition(row-1, col-2));
+
+
+        for (ChessPosition x : possibleMoves) {
+            int testRow = x.getRow();
+            int testCol = x.getColumn();
+            if (checkMove(board, x, testRow, testCol)) {
+                moves.add(new ChessMove(myPosition, x, null));
+            }
+        }
+        return moves;
+
+    }
 
 
 }
